@@ -41,6 +41,10 @@ namespace NHMigration
             set { _logger.Log = value; }
         }
 
+        public string DefaultSchema { get; set; }
+
+        public string DefaultCatalog { get; set; }
+
         public void Log(IDbCommand cmd, FormatStyle style = null)
         {
             _logger.LogCommand(cmd, style?? FormatStyle.Basic);
@@ -53,6 +57,14 @@ namespace NHMigration
 
 
 
+        public IDbCommand GenerateCommand(string query)
+        {
+            var cmd = Connection.CreateCommand();
+            cmd.CommandText = query;
+            cmd.CommandType = CommandType.Text;
+            cmd.Connection = Connection;
+            return cmd;
+        }
         public IDbCommand GenerateCommand(SqlCommandInfo info)
         {
             var cmd = Driver.GenerateCommand(info.CommandType, info.Text, info.ParameterTypes);
@@ -102,5 +114,6 @@ namespace NHMigration
         {
             return _sessionFactoryImplementor.GetAllClassMetadata();
         }
+
     }
 }

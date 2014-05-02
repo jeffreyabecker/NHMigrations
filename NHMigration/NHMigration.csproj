@@ -45,9 +45,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConfigHelper.cs" />
+    <Compile Include="Operations\AlterTableAddColumnOperation.cs" />
+    <Compile Include="Operations\AlterTableAddForeignKeyOperation.cs" />
+    <Compile Include="Operations\AlterTableAddUniqueConstriantOperation.cs" />
+    <Compile Include="Operations\AlterTableAlterColumnOperation.cs" />
+    <Compile Include="Operations\AlterTableDropColumnOperation.cs" />
+    <Compile Include="Operations\CreateAuxiliaryDatabaseObjectOperation.cs" />
+    <Compile Include="Operations\CreateIndexOperation.cs" />
+    <Compile Include="Operations\CreateTableOperation.cs" />
+    <Compile Include="Operations\DropIndexOperation.cs" />
+    <Compile Include="Operations\DropTableOperation.cs" />
+    <Compile Include="Operations\DropForeignKeyOperation.cs" />
     <Compile Include="MigrationGenerator.cs" />
     <Compile Include="Migrator.cs" />
     <Compile Include="IMigration.cs" />
+    <Compile Include="Operations\SqlOperation.cs" />
     <Compile Include="Util\SqlStatemetLogger.cs" />
     <Compile Include="Errors\CouldNotFindSqlStringBuilderConstructorException.cs" />
     <Compile Include="Versioning\IVersion.cs" />
