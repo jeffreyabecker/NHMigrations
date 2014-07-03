@@ -18,9 +18,7 @@ namespace NHMigration
     public class MigrationGenerator
     {
 
-  
 
-  
         public IEnumerable<IOperation> GenerateOperations(IVersion prevVersion, IVersion currentVersion)
         {
             if (prevVersion == null)

@@ -46,28 +46,34 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConfigHelper.cs" />
-    <Compile Include="Operations\AlterTableAddColumnOperation.cs" />
-    <Compile Include="Operations\AlterTableAddForeignKeyOperation.cs" />
-    <Compile Include="Operations\AlterTableAddUniqueConstriantOperation.cs" />
-    <Compile Include="Operations\AlterTableAlterColumnOperation.cs" />
-    <Compile Include="Operations\AlterTableDropColumnOperation.cs" />
-    <Compile Include="Operations\CreateAuxiliaryDatabaseObjectOperation.cs" />
-    <Compile Include="Operations\CreateIndexOperation.cs" />
-    <Compile Include="Operations\CreateTableOperation.cs" />
-    <Compile Include="Operations\DropIndexOperation.cs" />
-    <Compile Include="Operations\DropTableOperation.cs" />
-    <Compile Include="Operations\DropForeignKeyOperation.cs" />
     <Compile Include="MigrationGenerator.cs" />
     <Compile Include="Migrator.cs" />
     <Compile Include="IMigration.cs" />
-    <Compile Include="Operations\SqlOperation.cs" />
-    <Compile Include="Util\SqlStatemetLogger.cs" />
+    <Compile Include="Model\AddColumnOperation.cs" />
+    <Compile Include="Model\AddForeignKeyOperation.cs" />
+    <Compile Include="Model\AddPrimaryKeyOperation.cs" />
+    <Compile Include="Model\AlterColumnOperation.cs" />
+    <Compile Include="Model\AlterTableOperation.cs" />
+    <Compile Include="Model\ColumnModel.cs" />
+    <Compile Include="Model\CreateIndexOperation.cs" />
+    <Compile Include="Model\CreateSchemaOperation.cs" />
+    <Compile Include="Model\CreateTableOperation.cs" />
+    <Compile Include="Model\DropColumnOperation.cs" />
+    <Compile Include="Model\DropForeignKeyOperation.cs" />
+    <Compile Include="Model\DropIndexOperation.cs" />
+    <Compile Include="Model\DropTableOperation.cs" />
+    <Compile Include="Model\ForeignKeyOperation.cs" />
+    <Compile Include="Model\IndexOperation.cs" />
+    <Compile Include="Model\IOperation.cs" />
+    <Compile Include="Model\SqlOperation.cs" />
+    <Compile Include="Model\PrimaryKeyOperation.cs" />
+    <Compile Include="Model\TableModel.cs" />
+    <Compile Include="Util\MurmurHash.cs" />
     <Compile Include="Errors\CouldNotFindSqlStringBuilderConstructorException.cs" />
     <Compile Include="Versioning\IVersion.cs" />
     <Compile Include="Versioning\IVersioningStrategy.cs" />
-    <Compile Include="Operations\Operation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="MigrationDatabaseContex.cs" />
+    <Compile Include="Versioning\MigrationHistory.cs" />
     <Compile Include="Versioning\TableVersioningStrategy.cs" />
   </ItemGroup>
   <ItemGroup>

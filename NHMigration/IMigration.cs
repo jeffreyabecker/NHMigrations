@@ -1,4 +1,5 @@
-﻿using NHMigration.Versioning;
+﻿using NHibernate;
+using NHMigration.Versioning;
 
 namespace NHMigration
 {
@@ -6,6 +7,6 @@ namespace NHMigration
     {
         string MigrationContext { get; }
         IVersion Version { get; }
-        IVersion Execute(MigrationDatabaseContex ctx);
+        IVersion Execute(ISession ctx);
     }
 }

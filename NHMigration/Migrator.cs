@@ -1,38 +1,37 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using NHibernate;
+using NHibernate.Cfg;
 using NHibernate.Engine;
+using NHMigration.Operations;
 using NHMigration.Versioning;
 
 namespace NHMigration
 {
     public class Migrator
     {
+        private readonly Configuration _cfg;
+        private readonly ISessionFactory _sessionFactory;
         private readonly IVersioningStrategy _versioningStrategy;
-        private readonly ISessionFactoryImplementor _sessionFactory;
-        public Migrator(ISessionFactory sessionFactory, IVersioningStrategy versioningStrategy)
+
+        public Migrator(Configuration cfg, ISessionFactory sessionFactory, IVersioningStrategy versioningStrategy)
         {
+            _cfg = cfg;
+            _sessionFactory = sessionFactory;
             _versioningStrategy = versioningStrategy;
-            _sessionFactory = (ISessionFactoryImplementor) sessionFactory;
         }
 
-        public void Execute(string targetVersion, MigrationMode mode = MigrationMode.ScriptAndExecute, string migrationContext = null, Action<string> log = null)
+        public void Execute(IEnumerable<IOperation> operations)
         {
-            using (var ctx = new MigrationDatabaseContex(_sessionFactory, mode, migrationContext, log))
+            using (var session = _sessionFactory.OpenSession())
             {
-                _versioningStrategy.Initialize(ctx);
-                var current = _versioningStrategy.GetCurrentVersion(ctx);
-
-                var migrations = _versioningStrategy.GetMigrationsToExecute(current, targetVersion, ctx);
-                IVersion lastVersion = null;
-                foreach (var m in migrations)
+                foreach (var op in operations)
                 {
-                    lastVersion = m.Execute(ctx);
-                }
-                if (lastVersion != null)
-                {
-                    _versioningStrategy.SetCurrentVersion(lastVersion, ctx);
+                    op.Apply(session);
                 }
             }
+            
         }
 
 
