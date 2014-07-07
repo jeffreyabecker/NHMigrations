@@ -16,6 +16,17 @@ namespace NHMigration.Model
 
     public class MigrationStatement : IMigrationStatement
     {
+        public MigrationStatement(){}
+
+        public MigrationStatement(String sql)
+        {
+            Sql = sql;
+        }
+
+        public MigrationStatement(StringBuilder sqlBuilder)
+        {
+            Sql = sqlBuilder.ToString();
+        }
         public string Sql { get; set; }
 
         public string BatchTerminator { get; set; }
@@ -24,6 +35,7 @@ namespace NHMigration.Model
     public interface IOperation
     {
         IEnumerable<IMigrationStatement> GetStatements(IMigrationContext context);
+        IOperation Inverse { get; }
     }
 
     public interface IMigrationContext

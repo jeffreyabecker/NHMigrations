@@ -1,5 +1,9 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using NHibernate.Dialect;
+using NHibernate.Exceptions;
+using NHMigration.Model.Extensions;
 
 namespace NHMigration.Model
 {
@@ -11,28 +15,82 @@ namespace NHMigration.Model
         /// <summary>
         ///     Gets the name of the table to be created.
         /// </summary>
-        public virtual TableModel Name { get; set; }
+        public virtual NHibernate.Mapping.Table Table { get; set; }
 
-        /// <summary>
-        ///     Gets the columns to be included in the new table.
-        /// </summary>
-        public virtual IList<ColumnModel> Columns { get; set; }
+        public CreateTableOperation(){}
 
-        /// <summary>
-        ///     Gets or sets the primary key for the new table.
-        /// </summary>
-        public AddPrimaryKeyOperation PrimaryKey { get; set; }
-
-        public IEnumerable<IMigrationStatement> GetStatements(IMigrationContext ctx)
+        public CreateTableOperation(NHibernate.Mapping.Table table)
         {
+            Table = table;
+        }
+
+
+
+        public IEnumerable<IMigrationStatement> GetStatements(IMigrationContext context)
+        {
+            var dialect = context.Dialect;
+            var defaultCatalog = context.DefaultCatalog;
+            var defaultSchema = context.DefaultSchema;
+
             
             var sb = new StringBuilder();
-            sb.Append(ctx.Dialect.CreateTableString)
+    
+            sb.Append(dialect.CreateTableString)
                 .Append(" ")
-                .Append(Name.GetQualifiedName(ctx.Dialect, ctx.DefaultCatalog, ctx.DefaultSchema))
+                .Append(Table.GetQualifiedName(dialect, defaultCatalog, defaultSchema))
                 .Append(" (");
 
+            var identityColumn = Table.IdentifierValue != null && Table.IdentifierValue.IsIdentityColumn(dialect) ? Table.PrimaryKey.ColumnIterator.First() : null;
 
+
+            var commaNeeded = false;
+            foreach (var col in Table.ColumnIterator)
+            {
+                if (commaNeeded)
+                {
+                    sb.Append(", ");
+                }
+                sb.Append(dialect.QuoteForColumnName(col.Name)).Append(" ");
+
+                if (col == identityColumn)
+                {
+                    if (dialect.HasDataTypeInIdentityColumn)
+                    {
+                        sb.Append(dialect.GetTypeName(col.SqlTypeCode)).Append(" ");
+                    }
+                    sb.Append(dialect.GetIdentityColumnString(col.SqlTypeCode.DbType)).Append(" ");
+
+                }
+                else
+                {
+                    if (col.HasDefaultValue())
+                    {
+                        sb.Append(" default ").Append(col.DefaultValue).Append(" ");
+                    }
+
+                    sb.Append(col.IsNullable ? dialect.NullColumnString : " not null");
+                }
+
+                if (col.HasCheckConstraint)
+                {
+                    sb.Append(" check( ").Append(col.CheckConstraint).Append(") ");
+                }
+                commaNeeded = true;
+            }
+
+            return new[]
+            {
+                new MigrationStatement(sb)
+            };
+
+        }
+
+        public IOperation Inverse
+        {
+            get
+            {
+                return new DropTableOperation(Table);
+            }
         }
     }
 }
