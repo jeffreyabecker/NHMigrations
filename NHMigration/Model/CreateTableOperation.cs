@@ -3,6 +3,7 @@ using System.Linq;
 using System.Text;
 using NHibernate.Dialect;
 using NHibernate.Exceptions;
+using NHibernate.Mapping;
 using NHMigration.Model.Extensions;
 
 namespace NHMigration.Model
@@ -63,6 +64,7 @@ namespace NHMigration.Model
                 }
                 else
                 {
+
                     if (col.HasDefaultValue())
                     {
                         sb.Append(" default ").Append(col.DefaultValue).Append(" ");
@@ -78,9 +80,25 @@ namespace NHMigration.Model
                 commaNeeded = true;
             }
 
+
+            if (!dialect.SupportsForeignKeyConstraintInAlterTable)
+            {
+                foreach (ForeignKey foreignKey in Table.ForeignKeyIterator)
+                {
+                    if (foreignKey.HasPhysicalConstraint)
+                    {
+                        sb.Append(",").Append(foreignKey.SqlConstraintString(dialect, foreignKey.Name, defaultCatalog, defaultSchema));
+                    }
+                }
+            }
+            sb.Append(")");
+
+            sb.Append(dialect.TableTypeString);
+
+
             return new[]
             {
-                new MigrationStatement(sb)
+                new MigrationStatement(sb.ToString())
             };
 
         }

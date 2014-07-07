@@ -13,10 +13,10 @@ namespace NHMigration.Model
     /// </summary>
     public class AddPrimaryKeyOperation :  IOperation
     {
-        public AddPrimaryKeyOperation(){}
+
         public AddPrimaryKeyOperation(Table table)
         {
-            Table = table;
+            _table = table;
         }
 
         public IEnumerable<IMigrationStatement> GetStatements(IMigrationContext context)
@@ -24,17 +24,17 @@ namespace NHMigration.Model
             var dialect = context.Dialect;
             var defaultCatalog = context.DefaultCatalog;
             var defaultSchema = context.DefaultSchema;
-            var pk = Table.PrimaryKey;
+            var pk = _table.PrimaryKey;
 
-            var start = dialect.GetIfNotExistsCreateConstraint(Table, pk.Name);
-            var end = dialect.GetIfNotExistsCreateConstraintEnd(Table, pk.Name);
+            var start = dialect.GetIfNotExistsCreateConstraint(_table, pk.Name);
+            var end = dialect.GetIfNotExistsCreateConstraintEnd(_table, pk.Name);
 
             var sb = new StringBuilder()
                 .Append(start).AppendLine()
                 .Append("alter table ")
                 .Append(dialect.GetAddPrimaryKeyConstraintString(pk.Name))
                 .Append('(')
-                .AppendRange(Table.ColumnIterator.Select((c, i) => (i > 0 ? ", " : "") + c.GetQuotedName(dialect)))
+                .AppendRange(_table.ColumnIterator.Select((c, i) => (i > 0 ? ", " : "") + c.GetQuotedName(dialect)))
                 .Append(")")
                 .AppendLine()
                 .Append(end);
@@ -48,18 +48,20 @@ namespace NHMigration.Model
 
         public  IOperation Inverse
         {
-            get { return new DropPrimaryKeyOperation(Table); }
+            get { return new DropPrimaryKeyOperation(_table); }
         }
 
-        public Table Table { get; set; }
+        private Table _table;
+
+    
     }
 
     public class DropPrimaryKeyOperation:  IOperation
     {
-        public DropPrimaryKeyOperation(){}
+
         public DropPrimaryKeyOperation(Table table)
         {
-            Table = table;
+            _table = table;
         }
 
         public  IEnumerable<IMigrationStatement> GetStatements(IMigrationContext context)
@@ -68,7 +70,7 @@ namespace NHMigration.Model
             var defaultCatalog = context.DefaultCatalog;
             var defaultSchema = context.DefaultSchema;
 
-            string drop = string.Format("alter table {0}{1}", Table.GetQualifiedName(dialect, defaultCatalog, defaultSchema), dialect.GetDropPrimaryKeyConstraintString(this.Table.PrimaryKey.Name));
+            string drop = string.Format("alter table {0}{1}", _table.GetQualifiedName(dialect, defaultCatalog, defaultSchema), dialect.GetDropPrimaryKeyConstraintString(this._table.PrimaryKey.Name));
 
             return new[]
             {
@@ -78,9 +80,11 @@ namespace NHMigration.Model
 
         public  IOperation Inverse
         {
-            get { return new AddPrimaryKeyOperation(Table); }
+            get { return new AddPrimaryKeyOperation(_table); }
         }
 
-        public Table Table { get; set; }
+        private readonly Table _table;
+
+        
     }
 }

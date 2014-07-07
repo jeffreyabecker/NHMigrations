@@ -13,7 +13,7 @@ namespace NHMigration.Model
     /// </summary>
     public class CreateIndexOperation : IOperation
     {
-        public CreateIndexOperation(){}
+
 
         public CreateIndexOperation(Index index)
         {
@@ -51,7 +51,6 @@ namespace NHMigration.Model
     /// </summary>
     public class DropIndexOperation : IOperation
     {
-        public DropIndexOperation() { }
 
         public DropIndexOperation(Index index)
         {

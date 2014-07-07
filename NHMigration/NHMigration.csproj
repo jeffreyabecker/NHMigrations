@@ -51,7 +51,6 @@
     <Compile Include="IMigration.cs" />
     <Compile Include="Model\AddColumnOperation.cs" />
     <Compile Include="Model\AddPrimaryKeyOperation.cs" />
-    <Compile Include="Model\AlterTableOperation.cs" />
     <Compile Include="Model\CreateIndexOperation.cs" />
     <Compile Include="Model\CreateSchemaOperation.cs" />
     <Compile Include="Model\CreateTableOperation.cs" />
@@ -59,7 +58,7 @@
     <Compile Include="Model\Extensions\MappingExtensions.cs" />
     <Compile Include="Model\ForeignKeyOperation.cs" />
     <Compile Include="Model\IMigrationContext.cs" />
-    <Compile Include="Model\IndexOperation.cs" />
+    <Compile Include="Model\CheckConstraintOperation.cs" />
     <Compile Include="Model\IOperation.cs" />
     <Compile Include="Model\SqlOperation.cs" />
     <Compile Include="Util\MurmurHash.cs" />
