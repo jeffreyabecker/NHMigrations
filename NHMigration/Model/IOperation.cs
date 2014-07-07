@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
-using NHibernate.Dialect;
+using NHibernate.Exceptions;
 
 namespace NHMigration.Model
 {
@@ -14,8 +15,33 @@ namespace NHMigration.Model
         string BatchTerminator { get; }
     }
 
+    public class MigrationStatementResult : IEnumerable<IMigrationStatement>
+    {
+        private readonly string[] _statements;
+
+        public MigrationStatementResult(params string[] statements)
+        {
+            _statements = statements;
+        }
+
+        public MigrationStatementResult(params StringBuilder[] sbs)
+        {
+            _statements = sbs.Select(s => s.ToString()).ToArray();
+        }
+
+        public IEnumerator<IMigrationStatement> GetEnumerator()
+        {
+            return _statements.Select(s => (IMigrationStatement)new MigrationStatement(s)).GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+    }
     public class MigrationStatement : IMigrationStatement
     {
+
         public MigrationStatement(){}
 
         public MigrationStatement(String sql)
@@ -23,10 +49,7 @@ namespace NHMigration.Model
             Sql = sql;
         }
 
-        public MigrationStatement(StringBuilder sqlBuilder)
-        {
-            Sql = sqlBuilder.ToString();
-        }
+
         public string Sql { get; set; }
 
         public string BatchTerminator { get; set; }
@@ -37,13 +60,4 @@ namespace NHMigration.Model
         IEnumerable<IMigrationStatement> GetStatements(IMigrationContext context);
         IOperation Inverse { get; }
     }
-
-    public interface IMigrationContext
-    {
-        Dialect Dialect { get; }
-        string DefaultCatalog { get; }
-        string DefaultSchema { get; }
-    }
-
-
 }

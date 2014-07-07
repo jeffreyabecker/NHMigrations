@@ -62,7 +62,19 @@ namespace NHMigration.Model
 
         public IEnumerable<IMigrationStatement> GetStatements(IMigrationContext context)
         {
-            throw new NotImplementedException();
+            var dialect = context.Dialect;
+            var defaultCatalog = context.DefaultCatalog;
+            var defaultSchema = context.DefaultSchema;
+
+            var tableName = ForeignKey.Table.GetQualifiedName(dialect, defaultCatalog, defaultSchema);
+            var fkDrop = dialect.GetDropForeignKeyConstraintString(ForeignKey.Name);
+
+            string drop = string.Format("alter table {0} {1}", tableName, fkDrop);
+            return new[]
+            {
+                new MigrationStatement(drop),
+            };
+
         }
 
         public IOperation Inverse { get{return new AddForeignKeyOperation(ForeignKey);} }

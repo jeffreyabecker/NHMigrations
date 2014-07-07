@@ -41,7 +41,7 @@ namespace NHMigration.Model
 
             return new[]
             {
-                new MigrationStatement(sb)
+                new MigrationStatement(sb.ToString())
             };
 
         }
@@ -68,13 +68,11 @@ namespace NHMigration.Model
             var defaultCatalog = context.DefaultCatalog;
             var defaultSchema = context.DefaultSchema;
 
-            string ifExists = dialect.GetIfExistsDropConstraint(Table, this.Table.PrimaryKey.Name);
             string drop = string.Format("alter table {0}{1}", Table.GetQualifiedName(dialect, defaultCatalog, defaultSchema), dialect.GetDropPrimaryKeyConstraintString(this.Table.PrimaryKey.Name));
-            string end = dialect.GetIfExistsDropConstraintEnd(Table, this.Table.PrimaryKey.Name);
-            var result = ifExists + Environment.NewLine + drop + Environment.NewLine + end;
+
             return new[]
             {
-                new MigrationStatement(result),
+                new MigrationStatement(drop),
             };
         }
 

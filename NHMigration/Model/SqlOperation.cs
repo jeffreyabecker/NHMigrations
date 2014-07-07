@@ -13,16 +13,11 @@ namespace NHMigration.Model
         /// </summary>
         public virtual string Sql { get; set; }
 
-        public IEnumerable<IMigrationStatement> GetStatements(Dialect dialect)
+        public IEnumerable<IMigrationStatement> GetStatements(IMigrationContext context)
         {
-            dialect.SupportsSqlBatches
-            return new[]
-            {
-                new MigrationStatement
-                {
-                    Sql = Sql
-                }
-            };
+            return new MigrationStatementResult(Sql);
         }
+
+        public IOperation Inverse { get; set; }
     }
 }
