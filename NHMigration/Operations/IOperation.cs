@@ -4,7 +4,7 @@ namespace NHMigration.Model
 {
     public interface IOperation
     {
-        IEnumerable<IMigrationStatement> GetStatements(IMigrationContext context);
+        IEnumerable<string> GetStatements(IMigrationContext context);
         //IOperation Inverse { get; }
     }
 }

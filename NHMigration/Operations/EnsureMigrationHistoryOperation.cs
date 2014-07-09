@@ -19,7 +19,7 @@ namespace NHMigration.Model
         {
             _versioningStrategy = versioningStrategy;
         }
-        public IEnumerable<IMigrationStatement> GetStatements(IMigrationContext context)
+        public IEnumerable<string> GetStatements(IMigrationContext context)
         {
             return _versioningStrategy.EnsureDbObjectsStatements;
         }
@@ -36,7 +36,7 @@ namespace NHMigration.Model
             _version = version;
         }
 
-        public IEnumerable<IMigrationStatement> GetStatements(IMigrationContext context)
+        public IEnumerable<string> GetStatements(IMigrationContext context)
         {
             return _versioningStrategy.UpdateVersionToStatements(_version);
         }

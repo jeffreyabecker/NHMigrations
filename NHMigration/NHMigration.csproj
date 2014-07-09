@@ -45,29 +45,29 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model\AddColumnOperation.cs" />
-    <Compile Include="Model\AddPrimaryKeyOperation.cs" />
-    <Compile Include="Model\CreateIndexOperation.cs" />
-    <Compile Include="Model\CreateTableOperation.cs" />
-    <Compile Include="Model\DropTableOperation.cs" />
-    <Compile Include="Model\EnsureMigrationHistoryOperation.cs" />
-    <Compile Include="Model\Extensions\MappingExtensions.cs" />
-    <Compile Include="Model\ForeignKeyOperation.cs" />
-    <Compile Include="Model\IMigrationContext.cs" />
-    <Compile Include="Model\CheckConstraintOperation.cs" />
-    <Compile Include="Model\IMigrationStatement.cs" />
-    <Compile Include="Model\IOperation.cs" />
-    <Compile Include="Model\MigrationStatement.cs" />
-    <Compile Include="Model\MigrationStatementResult.cs" />
-    <Compile Include="Model\SqlOperation.cs" />
+    <Compile Include="IMigration.cs" />
+    <Compile Include="Operations\AddColumnOperation.cs" />
+    <Compile Include="Operations\AddPrimaryKeyOperation.cs" />
+    <Compile Include="Operations\CreateIndexOperation.cs" />
+    <Compile Include="Operations\CreateTableOperation.cs" />
+    <Compile Include="Operations\DropTableOperation.cs" />
+    <Compile Include="Operations\EnsureMigrationHistoryOperation.cs" />
+    <Compile Include="Operations\Extensions\MappingExtensions.cs" />
+    <Compile Include="Operations\ForeignKeyOperation.cs" />
+    <Compile Include="Operations\IMigrationContext.cs" />
+    <Compile Include="Operations\CheckConstraintOperation.cs" />
+    <Compile Include="Operations\IOperation.cs" />
+    <Compile Include="Operations\SqlOperation.cs" />
     <Compile Include="Util\MurmurHash.cs" />
-    <Compile Include="Errors\CouldNotFindSqlStringBuilderConstructorException.cs" />
     <Compile Include="Versioning\IVersion.cs" />
     <Compile Include="Versioning\IVersioningStrategy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Errors\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

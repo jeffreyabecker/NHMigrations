@@ -20,7 +20,7 @@ namespace NHMigration.Model
             _column = column;
         }
 
-        public IEnumerable<IMigrationStatement> GetStatements(IMigrationContext context)
+        public IEnumerable<string> GetStatements(IMigrationContext context)
         {
             var dialect = context.Dialect;
             var defaultSchema = context.DefaultSchema;
@@ -54,10 +54,10 @@ namespace NHMigration.Model
             {
                 sb.Append(" check(").Append(_column.CheckConstraint).Append(") ");
             }
-            return new MigrationStatementResult(sb.ToString());
+            return new[] { sb.ToString() };
         }
 
-        public IOperation Inverse { get { return new DropColumnOperation(_table, _column); } }
+
     }
 
     /// <summary>
@@ -73,7 +73,7 @@ namespace NHMigration.Model
             _table = table;
             _column = column;
         }
-        public IEnumerable<IMigrationStatement> GetStatements(IMigrationContext context)
+        public IEnumerable<string> GetStatements(IMigrationContext context)
         {
             var dialect = context.Dialect;
             var defaultSchema = context.DefaultSchema;
@@ -91,10 +91,10 @@ namespace NHMigration.Model
                 .Append(" ")
                 .Append(_column.GetQuotedName(dialect));
 
-            return new MigrationStatementResult(sb.ToString());
+            return new[]{sb.ToString()};
         }
 
-        public IOperation Inverse { get; private set; }
+
     }
 
     /// <summary>Represents altering an existing column.</summary>
@@ -112,7 +112,7 @@ namespace NHMigration.Model
             _newColumn = newColumn;
         }
 
-        public IEnumerable<IMigrationStatement> GetStatements(IMigrationContext context)
+        public IEnumerable<string> GetStatements(IMigrationContext context)
         {
             var dialect = context.Dialect;
             var defaultSchema = context.DefaultSchema;
@@ -149,15 +149,8 @@ namespace NHMigration.Model
             {
                 sb.Append(" check(").Append(_newColumn.CheckConstraint).Append(") ");
             }
-            return new MigrationStatementResult(sb.ToString());
+            return new []{sb.ToString()};
         }
 
-        public IOperation Inverse
-        {
-            get
-            {
-                return new AlterColumnOperation(_table, _newColumn, _oldColumn);
-            }
-        }
     }
 }

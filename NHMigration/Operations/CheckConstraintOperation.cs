@@ -25,7 +25,7 @@ namespace NHMigration.Model
     //        Column = column;
     //    }
 
-    //    public IEnumerable<IMigrationStatement> GetStatements(IMigrationContext context)
+    //    public IEnumerable<string> GetStatements(IMigrationContext context)
     //    {
     //        var dialect = context.Dialect;
     //        var defaultCatalog = context.DefaultCatalog;
@@ -53,13 +53,7 @@ namespace NHMigration.Model
     //        }
     //    }
 
-    //    public IOperation Inverse
-    //    {
-    //        get
-    //        {
-    //            return Table != null ? new DropCheckConstraintOperation(Table) : new DropCheckConstraintOperation(Column);
-    //        }
-    //    }
+
     //}
 
     //public class DropCheckConstraintOperation : IOperation
@@ -77,18 +71,12 @@ namespace NHMigration.Model
     //        Column = column;
     //    }
 
-    //    public IEnumerable<IMigrationStatement> GetStatements(IMigrationContext context)
+    //    public IEnumerable<string> GetStatements(IMigrationContext context)
     //    {
     //      throw new NotImplementedException();
     //    }
 
-    //    public IOperation Inverse
-    //    {
-    //        get
-    //        {
-    //            return Table != null ? new CreateCheckConstraintOperation(Table) : new CreateCheckConstraintOperation(Column);
-    //        }
-    //    }
+
     //}
 
 

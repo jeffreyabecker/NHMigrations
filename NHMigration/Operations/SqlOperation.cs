@@ -11,13 +11,13 @@ namespace NHMigration.Model
         /// <summary>
         ///     Gets the SQL to be executed.
         /// </summary>
-        public virtual string Sql { get; set; }
+        public virtual IEnumerable<string> Sql { get; set; }
 
-        public IEnumerable<IMigrationStatement> GetStatements(IMigrationContext context)
+        public IEnumerable<string> GetStatements(IMigrationContext context)
         {
-            return new MigrationStatementResult(Sql);
+            return Sql;
         }
 
-        public IOperation Inverse { get; set; }
+        
     }
 }

@@ -27,7 +27,7 @@ namespace NHMigration.Model
 
 
 
-        public IEnumerable<IMigrationStatement> GetStatements(IMigrationContext context)
+        public IEnumerable<string> GetStatements(IMigrationContext context)
         {
             var dialect = context.Dialect;
             var defaultCatalog = context.DefaultCatalog;
@@ -98,17 +98,11 @@ namespace NHMigration.Model
 
             return new[]
             {
-                new MigrationStatement(sb.ToString())
+                sb.ToString()
             };
 
         }
 
-        public IOperation Inverse
-        {
-            get
-            {
-                return new DropTableOperation(Table);
-            }
-        }
+
     }
 }

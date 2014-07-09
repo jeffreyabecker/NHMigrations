@@ -22,7 +22,7 @@ namespace NHMigration.Model
         }
 
         public Index Index { get; set; }
-        public IEnumerable<IMigrationStatement> GetStatements(IMigrationContext context)
+        public IEnumerable<string> GetStatements(IMigrationContext context)
         {
             var dialect = context.Dialect;
             var defaultCatalog = context.DefaultCatalog;
@@ -37,14 +37,10 @@ namespace NHMigration.Model
             sb.AppendRange(Index.ColumnIterator.Select((c, i) => (i > 0 ? ", " : "") + c.GetQuotedName(dialect)));
             sb.Append(")");
 
-            return new MigrationStatementResult(sb);
+            return new []{sb.ToString()};
 
         }
 
-        public IOperation Inverse
-        {
-            get { return new DropIndexOperation(Index); }
-        }
     }
 
     /// <summary>
@@ -59,19 +55,16 @@ namespace NHMigration.Model
         }
 
         public Index Index { get; set; }
-        public IEnumerable<IMigrationStatement> GetStatements(IMigrationContext context)
+        public IEnumerable<string> GetStatements(IMigrationContext context)
         {
             var dialect = context.Dialect;
             var defaultCatalog = context.DefaultCatalog;
             var defaultSchema = context.DefaultSchema;
             string drop = string.Format("drop index {0}", StringHelper.Qualify(Index.Table.GetQualifiedName(dialect, defaultCatalog, defaultSchema), Index.Name));
-            return new MigrationStatementResult(drop);
+            return new []{drop};
         }
 
-        public IOperation Inverse
-        {
-            get { return new CreateIndexOperation(Index); }
-        }
+ 
     }
 
     /// <summary>
@@ -89,17 +82,13 @@ namespace NHMigration.Model
         }
 
 
-        public IEnumerable<IMigrationStatement> GetStatements(IMigrationContext context)
+        public IEnumerable<string> GetStatements(IMigrationContext context)
         {
             var create = _uniqueKey.SqlCreateString(context.Dialect, null, context.DefaultCatalog, context.DefaultSchema);
-            return new MigrationStatementResult(create);
+            return new[] { create };
 
         }
 
-        public IOperation Inverse
-        {
-            get { return new DropUniqueKeyOperation(_uniqueKey); }
-        }
     }
 
     /// <summary>
@@ -115,15 +104,12 @@ namespace NHMigration.Model
         }
 
 
-        public IEnumerable<IMigrationStatement> GetStatements(IMigrationContext ctx)
+        public IEnumerable<string> GetStatements(IMigrationContext ctx)
         {
             var drop = _uniqueKey.SqlDropString(ctx.Dialect, ctx.DefaultCatalog, ctx.DefaultSchema);
-            return new MigrationStatementResult(drop);
+            return new[] { drop };
         }
 
-        public IOperation Inverse
-        {
-            get { return new CreateUniqueKeyOperation(_uniqueKey); }
-        }
+
     }
 }

@@ -8,8 +8,8 @@ namespace NHMigration.Versioning
 {
     public interface IVersioningStrategy
     {
-        IEnumerable<IMigrationStatement> EnsureDbObjectsStatements { get; }
-        IEnumerable<IMigrationStatement> UpdateVersionToStatements(string version);
+        IEnumerable<string> EnsureDbObjectsStatements { get; }
+        IEnumerable<string> GetUpdateVersionStatements(string version, string migrationContext);
     }
 
   

@@ -19,7 +19,7 @@ namespace NHMigration.Model
             _table = table;
         }
 
-        public IEnumerable<IMigrationStatement> GetStatements(IMigrationContext context)
+        public IEnumerable<string> GetStatements(IMigrationContext context)
         {
             var dialect = context.Dialect;
             var defaultCatalog = context.DefaultCatalog;
@@ -41,15 +41,12 @@ namespace NHMigration.Model
 
             return new[]
             {
-                new MigrationStatement(sb.ToString())
+                sb.ToString()
             };
 
         }
 
-        public  IOperation Inverse
-        {
-            get { return new DropPrimaryKeyOperation(_table); }
-        }
+
 
         private Table _table;
 
@@ -64,7 +61,7 @@ namespace NHMigration.Model
             _table = table;
         }
 
-        public  IEnumerable<IMigrationStatement> GetStatements(IMigrationContext context)
+        public  IEnumerable<string> GetStatements(IMigrationContext context)
         {
             var dialect = context.Dialect;
             var defaultCatalog = context.DefaultCatalog;
@@ -74,14 +71,10 @@ namespace NHMigration.Model
 
             return new[]
             {
-                new MigrationStatement(drop),
+                drop
             };
         }
 
-        public  IOperation Inverse
-        {
-            get { return new AddPrimaryKeyOperation(_table); }
-        }
 
         private readonly Table _table;
 

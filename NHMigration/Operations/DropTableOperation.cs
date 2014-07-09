@@ -16,21 +16,15 @@ namespace NHMigration.Model
         }
         
         public virtual NHibernate.Mapping.Table Table { get; set; }
-        public IEnumerable<IMigrationStatement> GetStatements(IMigrationContext context)
+        public IEnumerable<string> GetStatements(IMigrationContext context)
         {
             var dialect = context.Dialect;
             var defaultCatalog = context.DefaultCatalog;
             var defaultSchema = context.DefaultSchema;
             var drop = dialect.GetDropTableString(Table.GetQualifiedName(dialect, defaultCatalog, defaultSchema));
-            return new[] {new MigrationStatement(drop),};
+            return new[] {drop,};
         }
 
-        public IOperation Inverse
-        {
-            get
-            {
-                return new CreateTableOperation(Table);
-            }
-        }
+
     }
 }
