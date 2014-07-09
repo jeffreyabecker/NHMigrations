@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using NHibernate.Cfg.ConfigurationSchema;
 using NHibernate.Mapping;
 
 namespace NHMigration.Model
@@ -22,6 +20,12 @@ namespace NHMigration.Model
             var dialect = context.Dialect;
             var defaultCatalog = context.DefaultCatalog;
             var defaultSchema = context.DefaultSchema;
+
+            if (!dialect.SupportsForeignKeyConstraintInAlterTable)
+            {
+                throw new NotSupportedException(String.Format("{0} does not support foreign key in alter table", dialect.GetType().Name));
+            }
+
             var colspan = ForeignKey.ColumnSpan;
 
             var primaryKey = (ForeignKey.IsReferenceToPrimaryKey
@@ -63,6 +67,12 @@ namespace NHMigration.Model
         public IEnumerable<IMigrationStatement> GetStatements(IMigrationContext context)
         {
             var dialect = context.Dialect;
+
+
+            if (!dialect.SupportsForeignKeyConstraintInAlterTable)
+            {
+                throw new NotSupportedException(String.Format("{0} does not support foreign key in alter table", dialect.GetType().Name));
+            }
             var defaultCatalog = context.DefaultCatalog;
             var defaultSchema = context.DefaultSchema;
 

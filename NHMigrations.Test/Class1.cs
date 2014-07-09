@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NHMigration.Model
+namespace NHMigrations.Test
 {
-    public class CreateSchemaOperation : IOperation
+    public class Class1
     {
-        public string Name { get; set; }
     }
 }

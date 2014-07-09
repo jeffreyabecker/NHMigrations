@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NHibernate.Cfg.ConfigurationSchema;
+using NHibernate.Dialect;
 using NHibernate.Mapping;
 using NHibernate.Util;
 using NHMigration.Model.Extensions;
@@ -70,6 +71,59 @@ namespace NHMigration.Model
         public IOperation Inverse
         {
             get { return new CreateIndexOperation(Index); }
+        }
+    }
+
+    /// <summary>
+    ///     Represents creating a database UniqueKey.
+    /// </summary>
+    public class CreateUniqueKeyOperation : IOperation
+    {
+        private readonly UniqueKey _uniqueKey;
+
+
+        public CreateUniqueKeyOperation(UniqueKey uniqueKey)
+        {
+            _uniqueKey = uniqueKey;
+            
+        }
+
+
+        public IEnumerable<IMigrationStatement> GetStatements(IMigrationContext context)
+        {
+            var create = _uniqueKey.SqlCreateString(context.Dialect, null, context.DefaultCatalog, context.DefaultSchema);
+            return new MigrationStatementResult(create);
+
+        }
+
+        public IOperation Inverse
+        {
+            get { return new DropUniqueKeyOperation(_uniqueKey); }
+        }
+    }
+
+    /// <summary>
+    ///     Represents creating a database UniqueKey.
+    /// </summary>
+    public class DropUniqueKeyOperation : IOperation
+    {
+        private readonly UniqueKey _uniqueKey;
+
+        public DropUniqueKeyOperation(UniqueKey uniqueKey)
+        {
+            _uniqueKey = uniqueKey;
+        }
+
+
+        public IEnumerable<IMigrationStatement> GetStatements(IMigrationContext ctx)
+        {
+            var drop = _uniqueKey.SqlDropString(ctx.Dialect, ctx.DefaultCatalog, ctx.DefaultSchema);
+            return new MigrationStatementResult(drop);
+        }
+
+        public IOperation Inverse
+        {
+            get { return new CreateUniqueKeyOperation(_uniqueKey); }
         }
     }
 }

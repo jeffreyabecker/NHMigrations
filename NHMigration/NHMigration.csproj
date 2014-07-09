@@ -34,7 +34,7 @@
       <HintPath>..\packages\Iesi.Collections.3.2.0.1001\lib\Net35\Iesi.Collections.dll</HintPath>
     </Reference>
     <Reference Include="NHibernate">
-      <HintPath>..\packages\NHibernate.3.3.3.4001\lib\Net35\NHibernate.dll</HintPath>
+      <HintPath>..\..\nhibernate-core\src\NHibernate\bin\Debug-2.0\NHibernate.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -46,20 +46,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConfigHelper.cs" />
-    <Compile Include="MigrationGenerator.cs" />
-    <Compile Include="Migrator.cs" />
-    <Compile Include="IMigration.cs" />
     <Compile Include="Model\AddColumnOperation.cs" />
     <Compile Include="Model\AddPrimaryKeyOperation.cs" />
     <Compile Include="Model\CreateIndexOperation.cs" />
-    <Compile Include="Model\CreateSchemaOperation.cs" />
     <Compile Include="Model\CreateTableOperation.cs" />
     <Compile Include="Model\DropTableOperation.cs" />
     <Compile Include="Model\Extensions\MappingExtensions.cs" />
     <Compile Include="Model\ForeignKeyOperation.cs" />
     <Compile Include="Model\IMigrationContext.cs" />
     <Compile Include="Model\CheckConstraintOperation.cs" />
+    <Compile Include="Model\IMigrationStatement.cs" />
     <Compile Include="Model\IOperation.cs" />
+    <Compile Include="Model\MigrationStatement.cs" />
+    <Compile Include="Model\MigrationStatementResult.cs" />
     <Compile Include="Model\SqlOperation.cs" />
     <Compile Include="Util\MurmurHash.cs" />
     <Compile Include="Errors\CouldNotFindSqlStringBuilderConstructorException.cs" />

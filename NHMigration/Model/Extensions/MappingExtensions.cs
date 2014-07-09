@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NHibernate.Dialect;
+using NHibernate.Mapping;
 
 namespace NHMigration.Model.Extensions
 {
@@ -20,6 +22,15 @@ namespace NHMigration.Model.Extensions
                 sb.Append(s);
             }
             return sb;
+        }
+
+        public static string GetSqlType(this Column column, Dialect dialect)
+        {
+            if (!String.IsNullOrWhiteSpace(column.SqlType))
+            {
+                return column.SqlType;
+            }
+            return dialect.GetTypeName(column.SqlTypeCode);
         }
     }
 }
