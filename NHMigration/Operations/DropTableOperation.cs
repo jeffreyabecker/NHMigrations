@@ -1,6 +1,7 @@
 using System.Collections.Generic;
+using NHMigration.Model;
 
-namespace NHMigration.Model
+namespace NHMigration.Operations
 {
     /// <summary>
     ///     Represents dropping an existing table.

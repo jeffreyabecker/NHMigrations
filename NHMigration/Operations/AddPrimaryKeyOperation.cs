@@ -1,12 +1,11 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NHibernate.Mapping;
-using NHibernate.Util;
-using NHMigration.Model.Extensions;
+using NHMigration.Model;
+using NHMigration.Operations.Extensions;
 
-namespace NHMigration.Model
+namespace NHMigration.Operations
 {
     /// <summary>
     ///     Represents adding a primary key to a table.

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using NHibernate.Dialect;
 
-namespace NHMigration.Model
+namespace NHMigration.Operations
 {
     /// <summary>
     ///     Represents a provider specific SQL statement to be executed directly against the target database.
@@ -13,7 +13,7 @@ namespace NHMigration.Model
         /// </summary>
         public virtual IEnumerable<string> Sql { get; set; }
 
-        public IEnumerable<string> GetStatements(IMigrationContext context)
+        public IEnumerable<string> GetStatements(Dialect dialect)
         {
             return Sql;
         }

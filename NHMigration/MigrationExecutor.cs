@@ -1,9 +1,13 @@
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
 using NHibernate;
+using NHibernate.AdoNet.Util;
+using NHibernate.Dialect;
 using NHMigration.Model;
+using NHMigration.Operations;
 using NHMigration.Versioning;
 
 namespace NHMigration
@@ -19,9 +23,9 @@ namespace NHMigration
             _versioningStrategy = versioningStrategy;
         }
 
-        public void Execute(IMigrationContext context,  TextWriter output, ISessionFactory sessionFactory)
+        public void Execute(Dialect dialect, TextWriter output, ISessionFactory sessionFactory)
         {
-            var statements = GetStatements(context).ToList();
+            var statements = GetStatements(dialect).ToList();
             foreach (var statement in statements)
             {
                 output.WriteLine(statement);
@@ -41,29 +45,43 @@ namespace NHMigration
         }
 
 
-        private IEnumerable<string> GetStatements(IMigrationContext context)
+        private IEnumerable<string> GetStatements(Dialect dialect)
         {
-            
-            foreach (var s in _versioningStrategy.EnsureDbObjectsStatements)
+            var fmt = new DdlFormatter();
+            var ensureDbStatements = _versioningStrategy.EnsureDbObjectsStatements
+                    .Select(st => st.Trim())
+                        .Where(st => !String.IsNullOrWhiteSpace(st))
+                        .Select(st => fmt.Format(st));
+            foreach (var s in ensureDbStatements)
             {
-                yield return(s);
-                yield return(context.Dialect.BatchTerminator);
+                yield return s;
             }
             foreach (var migration in _migrations)
             {
-                foreach (var operation in migration.GetOperations())
-                {
-                    foreach (var s in operation.GetStatements(context))
-                    {
-                        yield return(s);
-                        yield return(context.Dialect.BatchTerminator);
-                    }
-                }
+                var opstatements = migration.GetOperations()
+                    .Select(operation => operation.GetStatements(dialect)
+                        .Select(st => st.Trim())
+                        .Where(st => !String.IsNullOrWhiteSpace(st))
+                        .Select(st => fmt.Format(st)))
+                    .SelectMany(os => os);
 
-                foreach (var s in _versioningStrategy.GetUpdateVersionStatements(migration.Version, migration.Context))
+
+                var updateVersionStatements = _versioningStrategy
+                    .GetUpdateVersionStatements(migration.Version, migration.Context)
+                        .Select(st => st.Trim())
+                        .Where(st => !String.IsNullOrWhiteSpace(st))
+                        .Select(st => fmt.Format(st));
+
+                var migrationStatements = opstatements.Concat(updateVersionStatements);
+     
+
+                foreach (var s in opstatements)
                 {
-                    yield return(s);
-                    yield return(context.Dialect.BatchTerminator);
+                    yield return s;
+                }
+                foreach (var s in updateVersionStatements)
+                {
+                    yield return s;
                 }
             }
            

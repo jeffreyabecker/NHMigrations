@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using NHibernate.Dialect;
 using NHibernate.Mapping;
 
-namespace NHMigration.Model.Extensions
+namespace NHMigration.Operations.Extensions
 {
     public static class MappingExtensions
     {

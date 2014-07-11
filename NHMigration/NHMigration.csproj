@@ -45,19 +45,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Builder\IColumnBuilder.cs" />
     <Compile Include="Builder\MigrationBuilder.cs" />
     <Compile Include="IMigration.cs" />
     <Compile Include="MigrationExecutor.cs" />
     <Compile Include="Operations\AddColumnOperation.cs" />
     <Compile Include="Operations\AddPrimaryKeyOperation.cs" />
+    <Compile Include="Operations\AlterColumnOperation.cs" />
     <Compile Include="Operations\CreateIndexOperation.cs" />
+    <Compile Include="Operations\CreateSequenceOperation.cs" />
+    <Compile Include="Operations\CreateTableGeneratorOperation.cs" />
     <Compile Include="Operations\CreateTableOperation.cs" />
+    <Compile Include="Operations\DropColumnOperation.cs" />
+    <Compile Include="Operations\DropIndexOperation.cs" />
     <Compile Include="Operations\DropTableOperation.cs" />
-    <Compile Include="Operations\EnsureMigrationHistoryOperation.cs" />
     <Compile Include="Operations\Extensions\MappingExtensions.cs" />
     <Compile Include="Operations\ForeignKeyOperation.cs" />
     <Compile Include="Operations\IMigrationContext.cs" />
-    <Compile Include="Operations\CheckConstraintOperation.cs" />
     <Compile Include="Operations\IOperation.cs" />
     <Compile Include="Operations\SqlOperation.cs" />
     <Compile Include="Util\MurmurHash.cs" />
