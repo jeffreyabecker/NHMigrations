@@ -1,29 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
+﻿using System.Collections.Generic;
 using NHibernate.Mapping;
 
 namespace NHMigration.Builder
 {
-
-
-    public interface ICreateTableBuilder<TColumns>
-    {
-
-        ICreateTableBuilder<TColumns> PrimaryKey(Expression<Func<TColumns, object>> keyExpression, bool identity = false, string name = null,
-            bool clustered = true);
-
-        ICreateTableBuilder<TColumns> Index(Expression<Func<TColumns, object>> indexExpression, string name = null,
-            bool unique = false, bool clustered = false);
-
-        ICreateTableBuilder<TColumns> ForeignKey(string principalTable,
-            Expression<Func<TColumns, object>> dependentKeyExpression, bool cascadeDelete = false, string name = null);
-
-    }
-
-
-
-
     public interface IMigrationBuilder
     {
         ICreateTableBuilder<TColumns> CreateTable<TColumns>(string name, TColumns columns);

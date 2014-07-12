@@ -11,25 +11,22 @@ namespace NHMigration.Builder
 
     public abstract class MigrationBase : IMigration, IMigrationBuilder
     {
-        private List<IOperation>  _operations = new List<IOperation>();
+        private List<Func<IOperation>> _operations = new List<Func<IOperation>>();
         protected MigrationBase(string version, string context)
         {
             Version = version;
             Context = context;
         }
 
-        public IEnumerable<IOperation> GetOperations()
-        {
-            return _operations;
-        }
 
+        public IEnumerable<IOperation> Operations { get { return _operations.Select(x=>x()); } }
         public string Version { get; private set; }
 
         public string Context{ get; private set; }
 
         public void AddOperation(IOperation operation)
         {
-            _operations.Add(operation);
+            _operations.Add(()=>operation);
         }
         public ICreateTableBuilder<TColumns> CreateTable<TColumns>(string name, TColumns columns)
         {

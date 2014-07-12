@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using NHibernate.Dialect;
 using NHibernate.Mapping;
 using NHibernate.Util;
 using NHMigration.Operations.Extensions;
@@ -14,31 +15,35 @@ namespace NHMigration.Operations
     {
 
 
-        public CreateIndexOperation(Index index)
+        //public CreateIndexOperation(Index index)
+        //{
+        //    Index = index;
+        //}
+
+        //public Index Index { get; set; }
+        //public IEnumerable<string> GetStatements(IMigrationContext context)
+        //{
+        //    var dialect = context.Dialect;
+        //    var defaultCatalog = context.DefaultCatalog;
+        //    var defaultSchema = context.DefaultSchema;
+
+        //    var sb = new StringBuilder("create index ")
+        //                    .Append(dialect.QualifyIndexName ? Index.Name : StringHelper.Unqualify(Index.Name))
+        //                    .Append(" on ")
+        //                    .Append(Index.Table.GetQualifiedName(dialect, defaultCatalog, defaultSchema))
+        //                    .Append(" (");
+
+        //    sb.AppendRange(Index.ColumnIterator.Select((c, i) => (i > 0 ? ", " : "") + c.GetQuotedName(dialect)));
+        //    sb.Append(")");
+
+        //    return new []{sb.ToString()};
+
+        //}
+
+        public IEnumerable<string> GetStatements(Dialect dialect)
         {
-            Index = index;
+            throw new System.NotImplementedException();
         }
-
-        public Index Index { get; set; }
-        public IEnumerable<string> GetStatements(IMigrationContext context)
-        {
-            var dialect = context.Dialect;
-            var defaultCatalog = context.DefaultCatalog;
-            var defaultSchema = context.DefaultSchema;
-
-            var sb = new StringBuilder("create index ")
-                            .Append(dialect.QualifyIndexName ? Index.Name : StringHelper.Unqualify(Index.Name))
-                            .Append(" on ")
-                            .Append(Index.Table.GetQualifiedName(dialect, defaultCatalog, defaultSchema))
-                            .Append(" (");
-
-            sb.AppendRange(Index.ColumnIterator.Select((c, i) => (i > 0 ? ", " : "") + c.GetQuotedName(dialect)));
-            sb.Append(")");
-
-            return new []{sb.ToString()};
-
-        }
-
     }
 
     ///// <summary>

@@ -46,7 +46,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Builder\IColumnBuilder.cs" />
+    <Compile Include="Builder\ICreateTableBuilder.cs" />
     <Compile Include="Builder\MigrationBuilder.cs" />
+    <Compile Include="Errors\MigrationException.cs" />
     <Compile Include="IMigration.cs" />
     <Compile Include="MigrationExecutor.cs" />
     <Compile Include="Operations\AddColumnOperation.cs" />
@@ -62,6 +64,7 @@
     <Compile Include="Operations\Extensions\MappingExtensions.cs" />
     <Compile Include="Operations\ForeignKeyOperation.cs" />
     <Compile Include="Operations\IOperation.cs" />
+    <Compile Include="Operations\Model\PrimaryKeyModel.cs" />
     <Compile Include="Operations\SqlOperation.cs" />
     <Compile Include="Util\MurmurHash.cs" />
     <Compile Include="Versioning\IVersion.cs" />
@@ -71,9 +74,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Errors\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

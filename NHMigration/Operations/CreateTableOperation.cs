@@ -5,6 +5,7 @@ using NHibernate.Dialect;
 using NHibernate.Mapping;
 using NHMigration.Model;
 using NHMigration.Operations.Extensions;
+using NHMigration.Operations.Model;
 
 namespace NHMigration.Operations
 {
@@ -13,7 +14,15 @@ namespace NHMigration.Operations
     /// </summary>
     public class CreateTableOperation : IOperation
     {
+        private readonly string _name;
+        private readonly ICollection<Column> _columns;
 
+        public CreateTableOperation(string name, ICollection<Column> columns)
+        {
+            _name = name;
+            _columns = columns;
+
+        }
 
 
         //public IEnumerable<string> GetStatements(IMigrationContext context)
@@ -96,6 +105,16 @@ namespace NHMigration.Operations
         public IEnumerable<string> GetStatements(Dialect dialect)
         {
             throw new System.NotImplementedException();
+        }
+
+        public void AddColumns(object columns)
+        {
+            
+        }
+
+        public void AddPrimaryKey(PrimaryKeyModel pkModel)
+        {
+            
         }
     }
 }
