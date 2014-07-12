@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using NHibernate.Dialect;
 using NHibernate.Mapping;
 using NHibernate.Util;
 

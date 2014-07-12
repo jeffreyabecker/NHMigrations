@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using NHibernate.Dialect;
 using NHibernate.Mapping;
 using NHMigration.Model;
 

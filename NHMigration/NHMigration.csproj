@@ -61,7 +61,6 @@
     <Compile Include="Operations\DropTableOperation.cs" />
     <Compile Include="Operations\Extensions\MappingExtensions.cs" />
     <Compile Include="Operations\ForeignKeyOperation.cs" />
-    <Compile Include="Operations\IMigrationContext.cs" />
     <Compile Include="Operations\IOperation.cs" />
     <Compile Include="Operations\SqlOperation.cs" />
     <Compile Include="Util\MurmurHash.cs" />
