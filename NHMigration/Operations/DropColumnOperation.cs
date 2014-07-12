@@ -11,35 +11,38 @@ namespace NHMigration.Operations
     /// </summary>
     public class DropColumnOperation : IOperation
     {
-        private readonly Table _table;
-        private readonly Column _column;
+        //private readonly Table _table;
+        //private readonly Column _column;
 
-        public DropColumnOperation(Table table, Column column)
+        //public DropColumnOperation(Table table, Column column)
+        //{
+        //    _table = table;
+        //    _column = column;
+        //}
+        //public IEnumerable<string> GetStatements(IMigrationContext context)
+        //{
+        //    var dialect = context.Dialect;
+        //    var defaultSchema = context.DefaultSchema;
+        //    var defaultCatalog = context.DefaultCatalog;
+        //    if (!dialect.SupportsDropColumn)
+        //    {
+        //        throw new NotSupportedException(String.Format("{0} does not support dropping columns", dialect.GetType().Name));
+        //    }
+        //    var tableName = _table.GetQualifiedName(dialect, defaultCatalog, defaultSchema);
+        //    var sb = new StringBuilder();
+        //    sb.Append("alter table ")
+        //        .Append(tableName)
+        //        .Append(" ")
+        //        .Append(dialect.DropColumnString)
+        //        .Append(" ")
+        //        .Append(_column.GetQuotedName(dialect));
+
+        //    return new[]{sb.ToString()};
+        //}
+
+        public IEnumerable<string> GetStatements(Dialect dialect)
         {
-            _table = table;
-            _column = column;
+            throw new System.NotImplementedException();
         }
-        public IEnumerable<string> GetStatements(IMigrationContext context)
-        {
-            var dialect = context.Dialect;
-            var defaultSchema = context.DefaultSchema;
-            var defaultCatalog = context.DefaultCatalog;
-            if (!dialect.SupportsDropColumn)
-            {
-                throw new NotSupportedException(String.Format("{0} does not support dropping columns", dialect.GetType().Name));
-            }
-            var tableName = _table.GetQualifiedName(dialect, defaultCatalog, defaultSchema);
-            var sb = new StringBuilder();
-            sb.Append("alter table ")
-                .Append(tableName)
-                .Append(" ")
-                .Append(dialect.DropColumnString)
-                .Append(" ")
-                .Append(_column.GetQuotedName(dialect));
-
-            return new[]{sb.ToString()};
-        }
-
-
     }
 }

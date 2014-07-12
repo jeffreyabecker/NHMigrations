@@ -17,20 +17,24 @@ namespace NHMigration.Operations
             _schema = schema;
             _parameters = parameters;
         }
-
-        public IEnumerable<string> GetStatements(IMigrationContext context)
+        public IEnumerable<string> GetStatements(Dialect dialect)
         {
-            var dialect = context.Dialect;
-            var defaultSchema = context.DefaultSchema;
-            var defaultCatalog = context.DefaultCatalog;
-            var sequenceName = dialect.Qualify(_catalog, _schema, _name);
-
-            var ddl = dialect.GetCreateSequenceString(sequenceName);
-            if (!String.IsNullOrWhiteSpace(_parameters))
-            {
-                ddl = ddl + " " + _parameters;
-            }
-            return new[] {ddl};
+            throw new System.NotImplementedException();
         }
+
+        //public IEnumerable<string> GetStatements(IMigrationContext context)
+        //{
+        //    var dialect = context.Dialect;
+        //    var defaultSchema = context.DefaultSchema;
+        //    var defaultCatalog = context.DefaultCatalog;
+        //    var sequenceName = dialect.Qualify(_catalog, _schema, _name);
+
+        //    var ddl = dialect.GetCreateSequenceString(sequenceName);
+        //    if (!String.IsNullOrWhiteSpace(_parameters))
+        //    {
+        //        ddl = ddl + " " + _parameters;
+        //    }
+        //    return new[] {ddl};
+        //}
     }
 }

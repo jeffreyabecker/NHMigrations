@@ -9,23 +9,26 @@ namespace NHMigration.Operations
     public class DropTableOperation : IOperation
 
     {
-        public DropTableOperation(){}
+        //public DropTableOperation(){}
 
-        public DropTableOperation(NHibernate.Mapping.Table table)
-        {
-            this.Table = Table;
-        }
+        //public DropTableOperation(NHibernate.Mapping.Table table)
+        //{
+        //    this.Table = Table;
+        //}
         
-        public virtual NHibernate.Mapping.Table Table { get; set; }
-        public IEnumerable<string> GetStatements(IMigrationContext context)
+        //public virtual NHibernate.Mapping.Table Table { get; set; }
+        //public IEnumerable<string> GetStatements(IMigrationContext context)
+        //{
+        //    var dialect = context.Dialect;
+        //    var defaultCatalog = context.DefaultCatalog;
+        //    var defaultSchema = context.DefaultSchema;
+        //    var drop = dialect.GetDropTableString(Table.GetQualifiedName(dialect, defaultCatalog, defaultSchema));
+        //    return new[] {drop,};
+        //}
+        public IEnumerable<string> GetStatements(Dialect dialect)
         {
-            var dialect = context.Dialect;
-            var defaultCatalog = context.DefaultCatalog;
-            var defaultSchema = context.DefaultSchema;
-            var drop = dialect.GetDropTableString(Table.GetQualifiedName(dialect, defaultCatalog, defaultSchema));
-            return new[] {drop,};
+            throw new System.NotImplementedException();
         }
-
 
     }
 }

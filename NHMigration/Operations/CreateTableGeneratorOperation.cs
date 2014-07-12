@@ -18,23 +18,27 @@ namespace NHMigration.Operations
             _columnType = columnType;
         }
 
-        public IEnumerable<string> GetStatements(IMigrationContext context)
+        public IEnumerable<string> GetStatements(Dialect dialect)
         {
-            var sb = new StringBuilder();
-            var dialect = context.Dialect;
-            var defaultSchema = context.DefaultSchema;
-            var defaultCatalog = context.DefaultCatalog;
-
-            var fmt1 = "{0} {2} ({3} {4})";
-            var fmt2 = "insert into {0} (1)";
-            var quotedTable = dialect.QuoteForTableName(_tableName);
-            var quotedColumn = dialect.QuoteForColumnName(_columnName);
-            var columnTypeName = dialect.GetTypeName(_columnType);
-            return new[]
-            {
-                String.Format(fmt1, dialect.CreateTableString, quotedTable, quotedColumn, columnTypeName),
-                string.Format(fmt2, quotedTable)
-            };
+            throw new System.NotImplementedException();
         }
+        //public IEnumerable<string> GetStatements(IMigrationContext context)
+        //{
+        //    var sb = new StringBuilder();
+        //    var dialect = context.Dialect;
+        //    var defaultSchema = context.DefaultSchema;
+        //    var defaultCatalog = context.DefaultCatalog;
+
+        //    var fmt1 = "{0} {2} ({3} {4})";
+        //    var fmt2 = "insert into {0} (1)";
+        //    var quotedTable = dialect.QuoteForTableName(_tableName);
+        //    var quotedColumn = dialect.QuoteForColumnName(_columnName);
+        //    var columnTypeName = dialect.GetTypeName(_columnType);
+        //    return new[]
+        //    {
+        //        String.Format(fmt1, dialect.CreateTableString, quotedTable, quotedColumn, columnTypeName),
+        //        string.Format(fmt2, quotedTable)
+        //    };
+        //}
     }
 }

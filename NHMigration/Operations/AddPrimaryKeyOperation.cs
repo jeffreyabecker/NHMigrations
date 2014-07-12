@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using NHibernate.Dialect;
 using NHibernate.Mapping;
 using NHMigration.Model;
 using NHMigration.Operations.Extensions;
@@ -13,41 +14,45 @@ namespace NHMigration.Operations
     public class AddPrimaryKeyOperation :  IOperation
     {
 
-        public AddPrimaryKeyOperation(Table table)
+        public IEnumerable<string> GetStatements(Dialect dialect)
         {
-            _table = table;
+            throw new System.NotImplementedException();
         }
+        //public AddPrimaryKeyOperation(Table table)
+        //{
+        //    _table = table;
+        //}
 
-        public IEnumerable<string> GetStatements(IMigrationContext context)
-        {
-            var dialect = context.Dialect;
-            var defaultCatalog = context.DefaultCatalog;
-            var defaultSchema = context.DefaultSchema;
-            var pk = _table.PrimaryKey;
+        //public IEnumerable<string> GetStatements(IMigrationContext context)
+        //{
+        //    var dialect = context.Dialect;
+        //    var defaultCatalog = context.DefaultCatalog;
+        //    var defaultSchema = context.DefaultSchema;
+        //    var pk = _table.PrimaryKey;
 
-            var start = dialect.GetIfNotExistsCreateConstraint(_table, pk.Name);
-            var end = dialect.GetIfNotExistsCreateConstraintEnd(_table, pk.Name);
+        //    var start = dialect.GetIfNotExistsCreateConstraint(_table, pk.Name);
+        //    var end = dialect.GetIfNotExistsCreateConstraintEnd(_table, pk.Name);
 
-            var sb = new StringBuilder()
-                .Append(start).AppendLine()
-                .Append("alter table ")
-                .Append(dialect.GetAddPrimaryKeyConstraintString(pk.Name))
-                .Append('(')
-                .AppendRange(_table.ColumnIterator.Select((c, i) => (i > 0 ? ", " : "") + c.GetQuotedName(dialect)))
-                .Append(")")
-                .AppendLine()
-                .Append(end);
+        //    var sb = new StringBuilder()
+        //        .Append(start).AppendLine()
+        //        .Append("alter table ")
+        //        .Append(dialect.GetAddPrimaryKeyConstraintString(pk.Name))
+        //        .Append('(')
+        //        .AppendRange(_table.ColumnIterator.Select((c, i) => (i > 0 ? ", " : "") + c.GetQuotedName(dialect)))
+        //        .Append(")")
+        //        .AppendLine()
+        //        .Append(end);
 
-            return new[]
-            {
-                sb.ToString()
-            };
+        //    return new[]
+        //    {
+        //        sb.ToString()
+        //    };
 
-        }
+        //}
 
 
 
-        private Table _table;
+        //private Table _table;
 
     
     }
@@ -55,28 +60,31 @@ namespace NHMigration.Operations
     public class DropPrimaryKeyOperation:  IOperation
     {
 
-        public DropPrimaryKeyOperation(Table table)
+        //public DropPrimaryKeyOperation(Table table)
+        //{
+        //    _table = table;
+        //}
+
+        //public  IEnumerable<string> GetStatements(IMigrationContext context)
+        //{
+        //    var dialect = context.Dialect;
+        //    var defaultCatalog = context.DefaultCatalog;
+        //    var defaultSchema = context.DefaultSchema;
+
+        //    string drop = string.Format("alter table {0}{1}", _table.GetQualifiedName(dialect, defaultCatalog, defaultSchema), dialect.GetDropPrimaryKeyConstraintString(this._table.PrimaryKey.Name));
+
+        //    return new[]
+        //    {
+        //        drop
+        //    };
+        //}
+
+
+        //private readonly Table _table;
+        public IEnumerable<string> GetStatements(Dialect dialect)
         {
-            _table = table;
+            throw new System.NotImplementedException();
         }
-
-        public  IEnumerable<string> GetStatements(IMigrationContext context)
-        {
-            var dialect = context.Dialect;
-            var defaultCatalog = context.DefaultCatalog;
-            var defaultSchema = context.DefaultSchema;
-
-            string drop = string.Format("alter table {0}{1}", _table.GetQualifiedName(dialect, defaultCatalog, defaultSchema), dialect.GetDropPrimaryKeyConstraintString(this._table.PrimaryKey.Name));
-
-            return new[]
-            {
-                drop
-            };
-        }
-
-
-        private readonly Table _table;
-
         
     }
 }
